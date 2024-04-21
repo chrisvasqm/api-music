@@ -24,3 +24,7 @@ To get this API up and running you will need to follow these steps:
 - Install all the dependencies with `npm install`.
 - Run all `Drizzle` migrations with `npm run generate`.
 - Start up the server with `npm run dev`
+
+## Trying it out
+
+After you have setup the project on your local machine, download Postman and head over to [this](https://www.postman.com/dark-sunset-399073/workspace/music-api) Workspace.
