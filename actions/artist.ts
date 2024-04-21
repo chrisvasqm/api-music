@@ -1,9 +1,9 @@
-import { eq } from 'drizzle-orm'
+import { asc, eq } from 'drizzle-orm'
 import db from '../db/drizzle'
 import { artist } from '../db/schema'
 
 export const getArtists = () => {
-    return db.query.artist.findMany()
+    return db.query.artist.findMany({ orderBy: asc(artist.name) })
 }
 
 export const addArtist = (name: string) => {
