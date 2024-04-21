@@ -1,7 +1,12 @@
 import { Request, Response, Router } from 'express'
 import { addArtist, getArtists } from '../actions/artist'
+import { z } from 'zod'
 
 const router = Router()
+
+const schema = z.object({
+    name: z.string({ required_error: 'Name is required' }).min(1, 'Name must be at least 1 character long')
+})
 
 router.get('/', async (_: Request, response: Response) => {
     const artists = await getArtists()
@@ -10,6 +15,10 @@ router.get('/', async (_: Request, response: Response) => {
 })
 
 router.post('/', async (request: Request, response: Response) => {
+    const validation = schema.safeParse(request.body);
+    if (!validation.success)
+        return response.status(400).send(validation.error.format())
+
     const { name } = request.body;
     const artist = await addArtist(name)
 
