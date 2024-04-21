@@ -2,10 +2,19 @@
   "name": "api-music",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./src/index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./dist/src/index.js",
+    "dev": "nodemon ./src/index.ts",
+    "build": "tsc"
   },
-  "author": "",
-  "license": "ISC"
+  "author": "chrisvasqm",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "nodemon": "^3.1.0",
+    "ts-node": "^10.9.2"
+  }
 }
