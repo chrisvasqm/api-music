@@ -11,3 +11,10 @@ export const album = pgTable('album', {
     releaseDate: date('releaseDate', { mode: 'string' }).defaultNow(),
     artistId: integer('artistId').references(() => artist.id)
 })
+
+export const song = pgTable('song', {
+    id: serial('id').primaryKey(),
+    name: varchar('name', { length: 255 }),
+    duration: integer('duration'),
+    albumId: integer('albumId').references(() => album.id)
+})
