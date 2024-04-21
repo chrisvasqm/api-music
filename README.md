@@ -6,6 +6,15 @@ NodeJS based backend to showcase how to use Drizzle ORM with TypeScript and a Po
 - Songs
 - Artists
 
+## Relations
+
+This API has the following relationships in the database:
+
+- `Artist` 1..* `Albums`
+- `Albums` 1..* `Songs`
+
+> `1..*` means "One-to-Many". To know more, check out this [video](https://www.youtube.com/watch?v=xsg9BDiwiJE)
+
 ## Getting started
 
 To get this API up and running you will need to follow these steps:
