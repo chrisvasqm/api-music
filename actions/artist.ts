@@ -3,7 +3,7 @@ import db from '../db/drizzle'
 import { artist } from '../db/schema'
 
 export const getArtists = () => {
-    return db.select().from(artist)
+    return db.query.artist.findMany()
 }
 
 export const addArtist = (name: string) => {
