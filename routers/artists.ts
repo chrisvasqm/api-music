@@ -26,8 +26,13 @@ router.post('/', async (request: Request, response: Response) => {
 })
 
 router.get('/:id', async (request: Request, response: Response) => {
-    const { id } = request.params;
-    const artist = await findArtist(parseInt(id))
+    const id = parseInt(request.params.id)
+    const notFound = 'Artist not found'
+    if (isNaN(id)) return response.status(404).send(notFound)
+
+    const artist = await findArtist(id)
+
+    if (!artist) return response.status(404).send(notFound)
 
     return response.send(artist)
 })
