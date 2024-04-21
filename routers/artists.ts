@@ -1,5 +1,5 @@
 import { Request, Response, Router } from 'express'
-import { addArtist, getArtists } from '../actions/artist'
+import { addArtist, findArtist, getArtists } from '../actions/artist'
 import { z } from 'zod'
 
 const router = Router()
@@ -23,6 +23,13 @@ router.post('/', async (request: Request, response: Response) => {
     const artist = await addArtist(name)
 
     return response.send(artist);
+})
+
+router.get('/:id', async (request: Request, response: Response) => {
+    const { id } = request.params;
+    const artist = await findArtist(parseInt(id))
+
+    return response.send(artist)
 })
 
 export default router
