@@ -5,7 +5,9 @@ import { z } from 'zod'
 const router = Router()
 
 const schema = z.object({
-    name: z.string({ required_error: 'Name is required' }).min(1, 'Name must be at least 1 character long')
+    name: z
+        .string({ required_error: 'Name is required' })
+        .min(1, 'Name must be at least 1 character long')
 })
 
 router.get('/', async (_: Request, response: Response) => {
@@ -16,8 +18,7 @@ router.get('/', async (_: Request, response: Response) => {
 
 router.post('/', async (request: Request, response: Response) => {
     const validation = schema.safeParse(request.body);
-    if (!validation.success)
-        return response.status(400).send(validation.error.format())
+    if (!validation.success) return response.status(400).send(validation.error.format())
 
     const { name } = request.body;
     const artist = await addArtist(name)
@@ -31,7 +32,6 @@ router.get('/:id', async (request: Request, response: Response) => {
     if (isNaN(id)) return response.status(404).send(notFound)
 
     const artist = await findArtist(id)
-
     if (!artist) return response.status(404).send(notFound)
 
     return response.send(artist)
