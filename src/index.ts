@@ -7,6 +7,7 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 app.use(helmet())
+
 app.use('/', (_: Request, response: Response) => {
     return response.send('Welcome to the Music API')
 })
