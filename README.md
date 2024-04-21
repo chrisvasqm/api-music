@@ -13,7 +13,7 @@ This API has the following relationships in the database:
 - `Artist` 1..* `Albums`
 - `Albums` 1..* `Songs`
 
-> `1..*` means "One-to-Many". To know more, check out this [video](https://www.youtube.com/watch?v=xsg9BDiwiJE)
+> `1..*` means "One-to-Many". If you are not familiar with this concept, check out this [video](https://www.youtube.com/watch?v=xsg9BDiwiJE)
 
 ## Getting started
 
