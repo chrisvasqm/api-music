@@ -1,6 +1,6 @@
-import { Request, Response, Router, response } from 'express'
-import { addArtist, findArtist, getArtists, updateArtist } from '../actions/artist'
+import { Request, Response, Router } from 'express'
 import { z } from 'zod'
+import { addArtist, deleteArtist, findArtist, getArtists, updateArtist } from '../actions/artist'
 
 const router = Router()
 
@@ -50,6 +50,19 @@ router.put('/:id', async (request: Request, response: Response) => {
     const updatedArtist = await updateArtist({ id, name })
 
     return response.send(updatedArtist)
+})
+
+router.delete('/:id', async (request: Request, response: Response) => {
+    const id = parseInt(request.params.id)
+    const notFound = 'Artist not found'
+    if (isNaN(id)) return response.status(404).send(notFound)
+
+    const artist = await findArtist(id)
+    if (!artist) return response.status(404).send(notFound)
+
+    const deletedArtist = await deleteArtist(id)
+
+    return response.send(deletedArtist)
 })
 
 export default router

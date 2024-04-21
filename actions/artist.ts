@@ -25,3 +25,10 @@ export const updateArtist = (data: Artist) => {
         .where(eq(artist.id, data.id))
         .returning()
 }
+
+export const deleteArtist = (id: number) => {
+    return db
+        .delete(artist)
+        .where(eq(artist.id, id))
+        .returning()
+}
