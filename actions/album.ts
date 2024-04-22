@@ -1,4 +1,4 @@
-import { asc } from 'drizzle-orm';
+import { asc, eq } from 'drizzle-orm';
 import db from '../db/drizzle';
 import { album } from '../db/schema';
 
@@ -11,4 +11,8 @@ export const addAlbum = (name: string, artistId: number) => {
         .insert(album)
         .values({ name, artistId })
         .returning()
+}
+
+export const findAlbum = (id: number) => {
+    return db.query.album.findFirst({ where: eq(album.id, id) })
 }

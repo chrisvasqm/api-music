@@ -1,6 +1,6 @@
 import { Request, Response, Router } from 'express'
 import { z } from 'zod'
-import { addAlbum, getAlbumbs } from '../actions/album'
+import { addAlbum, findAlbum, getAlbumbs } from '../actions/album'
 import { findArtist } from '../actions/artist'
 import Album from '../models/Album'
 
@@ -28,6 +28,16 @@ router.post('/', async (request: Request, response: Response) => {
     if (!artist) return response.status(404).send('Artist not found')
 
     const album = await addAlbum(name, artistId)
+
+    return response.send(album)
+})
+
+router.get('/:id', async (request: Request, response: Response) => {
+    const id = parseInt(request.params.id)
+    if (isNaN(id)) return response.status(404).send('Album not found')
+
+    const album = await findAlbum(id)
+    if (!album) return response.status(404).send('Album not found')
 
     return response.send(album)
 })
