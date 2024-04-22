@@ -1,6 +1,6 @@
 import { Request, Response, Router } from 'express'
 import { z } from 'zod'
-import { addAlbum, findAlbum, getAlbumbs, updateAlbum } from '../actions/album'
+import { addAlbum, deleteAlbum, findAlbum, getAlbumbs, updateAlbum } from '../actions/album'
 import { findArtist } from '../actions/artist'
 import Album from '../models/Album'
 
@@ -54,12 +54,24 @@ router.put('/:id', async (request: Request, response: Response) => {
 
     const { name, artistId } = request.body as Album
 
-    const artist = await findArtist(artistId);
+    const artist = await findArtist(artistId)
     if (!artist) return response.status(404).send('Artist not found')
 
     const updatedAlbum = await updateAlbum(id, name, artistId)
 
     return response.send(updatedAlbum)
+})
+
+router.delete('/:id', async (request: Request, response: Response) => {
+    const id = parseInt(request.params.id)
+    if (isNaN(id)) return response.status(404).send('Album not found')
+
+    const album = await findAlbum(id)
+    if (!album) return response.status(404).send('Album not found')
+
+    const deletedAlbum = await deleteAlbum(id)
+
+    return response.send(deletedAlbum)
 })
 
 export default router
