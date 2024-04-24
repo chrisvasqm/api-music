@@ -1,7 +1,7 @@
-import { Router, Request, Response, request } from 'express'
-import { addSong, findSong, getSongs } from '../actions/songs';
+import { Request, Response, Router } from 'express';
 import { z } from 'zod';
 import { findAlbum } from '../actions/album';
+import { addSong, findSong, getSongs, updateSong } from '../actions/songs';
 
 const router = Router()
 
@@ -38,6 +38,26 @@ router.get('/:id', async (request: Request, response: Response) => {
     if (!song) return response.status(404).send('Song not found')
 
     return response.send(song)
+})
+
+router.put('/:id', async (request: Request, response: Response) => {
+    const validation = schema.safeParse(request.body)
+    if (!validation.success) return response.status(400).send(validation.error.format())
+
+    const id = parseInt(request.params.id)
+    if (isNaN(id)) return response.status(404).send('Song not found')
+
+    const song = await findSong(id);
+    if (!song) return response.status(404).send('Song not found')
+
+    const { name, duration, albumId } = request.body
+
+    const album = await findAlbum(albumId)
+    if (!album) return response.status(404).send('Album not found')
+
+    const updatedSong = await updateSong(id, name, duration, albumId)
+
+    return response.send(updatedSong)
 })
 
 export default router

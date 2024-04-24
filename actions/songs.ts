@@ -1,7 +1,6 @@
-import e from 'cors';
-import db from '../db/drizzle'
-import { song } from '../db/schema';
 import { eq } from 'drizzle-orm';
+import db from '../db/drizzle';
+import { song } from '../db/schema';
 
 export const getSongs = () => {
     return db.query.song.findMany();
@@ -16,4 +15,12 @@ export const addSong = (name: string, duration: number, albumId: number) => {
 
 export const findSong = (id: number) => {
     return db.query.song.findFirst({ where: eq(song.id, id) });
+}
+
+export const updateSong = (id: number, name: string, duration: number, albumId: number) => {
+    return db
+        .update(song)
+        .set({ name, duration, albumId })
+        .where(eq(song.id, id))
+        .returning()
 }
