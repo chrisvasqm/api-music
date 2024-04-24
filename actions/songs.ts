@@ -24,3 +24,10 @@ export const updateSong = (id: number, name: string, duration: number, albumId: 
         .where(eq(song.id, id))
         .returning()
 }
+
+export const deleteSong = (id: number) => {
+    return db
+        .delete(song)
+        .where(eq(song.id, id))
+        .returning()
+}

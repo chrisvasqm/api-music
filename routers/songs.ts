@@ -1,7 +1,7 @@
 import { Request, Response, Router } from 'express';
 import { z } from 'zod';
 import { findAlbum } from '../actions/album';
-import { addSong, findSong, getSongs, updateSong } from '../actions/songs';
+import { addSong, deleteSong, findSong, getSongs, updateSong } from '../actions/songs';
 
 const router = Router()
 
@@ -58,6 +58,18 @@ router.put('/:id', async (request: Request, response: Response) => {
     const updatedSong = await updateSong(id, name, duration, albumId)
 
     return response.send(updatedSong)
+})
+
+router.delete('/:id', async (request: Request, response: Response) => {
+    const id = parseInt(request.params.id);
+    if (isNaN(id)) return response.status(404).send('Song not found')
+
+    const song = await findSong(id)
+    if (!song) return response.status(404).send('Song not found')
+
+    const deletedSong = await deleteSong(id)
+
+    return response.send(deletedSong)
 })
 
 export default router
