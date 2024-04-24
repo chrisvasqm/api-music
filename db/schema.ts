@@ -26,3 +26,10 @@ export const song = pgTable('song', {
     duration: integer('duration'),
     albumId: integer('albumId').references(() => album.id)
 })
+
+export const songRelation = relations(song, ({ one }) => ({
+    album: one(album, {
+        fields: [song.albumId],
+        references: [album.id]
+    })
+}))
