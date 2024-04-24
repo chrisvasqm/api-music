@@ -1,3 +1,4 @@
+import { relations } from 'drizzle-orm';
 import { date, integer, pgTable, serial, varchar } from 'drizzle-orm/pg-core';
 
 export const artist = pgTable('artist', {
@@ -11,6 +12,13 @@ export const album = pgTable('album', {
     releaseDate: date('releaseDate', { mode: 'string' }).defaultNow(),
     artistId: integer('artistId').references(() => artist.id)
 })
+
+export const albumRelation = relations(album, ({ one }) => ({
+    artist: one(artist, {
+        fields: [album.artistId],
+        references: [artist.id]
+    })
+}))
 
 export const song = pgTable('song', {
     id: serial('id').primaryKey(),

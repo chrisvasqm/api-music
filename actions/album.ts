@@ -14,7 +14,15 @@ export const addAlbum = (name: string, artistId: number) => {
 }
 
 export const findAlbum = (id: number) => {
-    return db.query.album.findFirst({ where: eq(album.id, id) })
+    return db.query.album.findFirst({
+        where: eq(album.id, id),
+        with: { artist: true },
+        columns: {
+            id: true,
+            name: true,
+            releaseDate: true
+        }
+    })
 }
 
 export const updateAlbum = (id: number, name: string, artistId: number) => {
