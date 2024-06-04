@@ -17,13 +17,39 @@ This API has the following relationships in the database:
 
 ## Getting started
 
-To get this API up and running you will need to follow these steps:
+### Spin up the database
 
-- Install `PostgreSQL` on your local machine.
-- Make a copy of the `example.env` and rename it `.env`, then replace the placeholder values.
-- Install all the dependencies with `npm install`.
-- Run all `Drizzle` migrations with `npm run generate`.
-- Start up the server with `npm run dev`
+1. Install Docker on your machine
+2. Open a Terminal window at the `/` root folder of the project
+3. Run the following command:
+
+```bash
+docker compose up -d
+```
+
+This should start a `Postgres` database in your local with the details in the `docker-compose.yaml` file.
+
+### Setup the DATABASE_URL
+
+1. Make a copy of the `example.env` file at the `/` root folder.
+2. Replace the placeholder values with the details you have in the `docker-compose.yaml`
+3. Run the following command to run the database migrations:
+
+```bash
+pnpm generate
+```
+
+### Install dependencies
+
+```bash
+pnpm install
+```
+
+### Start the server
+
+```bash
+pnpm dev
+```
 
 ## Trying it out
 
