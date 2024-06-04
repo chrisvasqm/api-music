@@ -1,4 +1,4 @@
-import { Request, Response, Router } from 'express'
+import { Router } from 'express'
 import { z } from 'zod'
 import { addAlbum, deleteAlbum, findAlbum, getAlbumbs, updateAlbum } from '../actions/album'
 import { findArtist } from '../actions/artist'
@@ -13,12 +13,12 @@ const schema = z.object({
     artistId: z.number().positive()
 })
 
-router.get('/', async (_: Request, response: Response) => {
+router.get('/', async (_, response) => {
     const albums = await getAlbumbs()
     return response.send(albums)
 })
 
-router.post('/', async (request: Request, response: Response) => {
+router.post('/', async (request, response) => {
     const validation = schema.safeParse(request.body)
     if (!validation.success) return response.status(400).send(validation.error.format())
 
@@ -32,7 +32,7 @@ router.post('/', async (request: Request, response: Response) => {
     return response.send(album)
 })
 
-router.get('/:id', async (request: Request, response: Response) => {
+router.get('/:id', async (request, response) => {
     const id = parseInt(request.params.id)
     if (isNaN(id)) return response.status(404).send('Album not found')
 
@@ -42,7 +42,7 @@ router.get('/:id', async (request: Request, response: Response) => {
     return response.send(album)
 })
 
-router.put('/:id', async (request: Request, response: Response) => {
+router.put('/:id', async (request, response) => {
     const validation = schema.safeParse(request.body)
     if (!validation.success) return response.status(400).send(validation.error.format())
 
@@ -62,7 +62,7 @@ router.put('/:id', async (request: Request, response: Response) => {
     return response.send(updatedAlbum)
 })
 
-router.delete('/:id', async (request: Request, response: Response) => {
+router.delete('/:id', async (request, response) => {
     const id = parseInt(request.params.id)
     if (isNaN(id)) return response.status(404).send('Album not found')
 

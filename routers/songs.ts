@@ -1,4 +1,4 @@
-import { Request, Response, Router } from 'express';
+import { Router } from 'express';
 import { z } from 'zod';
 import { findAlbum } from '../actions/album';
 import { addSong, deleteSong, findSong, getSongs, updateSong } from '../actions/songs';
@@ -11,12 +11,12 @@ const schema = z.object({
     albumId: z.number({ required_error: 'AlbumId is required' })
 })
 
-router.get('/', async (_: Request, response: Response) => {
+router.get('/', async (_, response) => {
     const songs = await getSongs()
     return response.send(songs)
 })
 
-router.post('/', async (request: Request, response: Response) => {
+router.post('/', async (request, response) => {
     const validation = schema.safeParse(request.body)
     if (!validation.success) return response.status(400).send(validation.error.format())
 
@@ -30,7 +30,7 @@ router.post('/', async (request: Request, response: Response) => {
     return response.send(song)
 })
 
-router.get('/:id', async (request: Request, response: Response) => {
+router.get('/:id', async (request, response) => {
     const id = parseInt(request.params.id)
     if (isNaN(id)) return response.status(404).send('Song not found')
 
@@ -40,7 +40,7 @@ router.get('/:id', async (request: Request, response: Response) => {
     return response.send(song)
 })
 
-router.put('/:id', async (request: Request, response: Response) => {
+router.put('/:id', async (request, response) => {
     const validation = schema.safeParse(request.body)
     if (!validation.success) return response.status(400).send(validation.error.format())
 
@@ -60,7 +60,7 @@ router.put('/:id', async (request: Request, response: Response) => {
     return response.send(updatedSong)
 })
 
-router.delete('/:id', async (request: Request, response: Response) => {
+router.delete('/:id', async (request, response) => {
     const id = parseInt(request.params.id);
     if (isNaN(id)) return response.status(404).send('Song not found')
 

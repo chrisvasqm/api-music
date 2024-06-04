@@ -1,4 +1,4 @@
-import { Request, Response, Router } from 'express'
+import { Router } from 'express'
 import { z } from 'zod'
 import { addArtist, deleteArtist, findArtist, getArtists, updateArtist } from '../actions/artist'
 
@@ -10,13 +10,13 @@ const schema = z.object({
         .min(1, 'Name must be at least 1 character long')
 })
 
-router.get('/', async (_: Request, response: Response) => {
+router.get('/', async (_, response) => {
     const artists = await getArtists()
 
     return response.send(artists)
 })
 
-router.post('/', async (request: Request, response: Response) => {
+router.post('/', async (request, response) => {
     const validation = schema.safeParse(request.body);
     if (!validation.success) return response.status(400).send(validation.error.format())
 
@@ -26,7 +26,7 @@ router.post('/', async (request: Request, response: Response) => {
     return response.send(artist);
 })
 
-router.get('/:id', async (request: Request, response: Response) => {
+router.get('/:id', async (request, response) => {
     const id = parseInt(request.params.id)
     const notFound = 'Artist not found'
     if (isNaN(id)) return response.status(404).send(notFound)
@@ -37,7 +37,7 @@ router.get('/:id', async (request: Request, response: Response) => {
     return response.send(artist)
 })
 
-router.put('/:id', async (request: Request, response: Response) => {
+router.put('/:id', async (request, response) => {
     const id = parseInt(request.params.id)
     const notFound = 'Artist not found'
     if (isNaN(id)) return response.status(404).send(notFound)
@@ -52,7 +52,7 @@ router.put('/:id', async (request: Request, response: Response) => {
     return response.send(updatedArtist)
 })
 
-router.delete('/:id', async (request: Request, response: Response) => {
+router.delete('/:id', async (request, response) => {
     const id = parseInt(request.params.id)
     const notFound = 'Artist not found'
     if (isNaN(id)) return response.status(404).send(notFound)

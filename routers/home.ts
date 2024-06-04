@@ -1,8 +1,8 @@
-import { Request, Response, Router } from 'express'
+import { Router } from 'express'
 
 const router = Router()
 
-router.get('/', (_: Request, response: Response) => {
+router.get('/', (_, response) => {
     return response.send('Welcome to the Music API')
 })
 
