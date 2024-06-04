@@ -1,10 +1,10 @@
 import cors from 'cors'
 import express from 'express'
 import helmet from 'helmet'
-import artistRouter from './routers/artists'
-import homeRouter from './routers/home'
-import albumRouter from './routers/albums'
-import songsRouter from './routers/songs'
+import artists from './routers/artists'
+import home from './routers/home'
+import albums from './routers/albums'
+import songs from './routers/songs'
 
 const app = express()
 
@@ -12,10 +12,10 @@ app.use(express.json())
 app.use(cors())
 app.use(helmet())
 
-app.use('/', homeRouter)
-app.use('/api/artists', artistRouter)
-app.use('/api/albums', albumRouter)
-app.use('/api/songs', songsRouter)
+app.use('/', home)
+app.use('/api/artists', artists)
+app.use('/api/albums', albums)
+app.use('/api/songs', songs)
 
 const PORT = process.env.PORT || 3000
 app.listen(PORT, () => {
